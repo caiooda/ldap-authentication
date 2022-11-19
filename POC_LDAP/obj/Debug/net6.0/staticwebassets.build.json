@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "ccSGWl8OpMoBjzm7jBEjJ6EQcAavkZLN/t41xJThp2s=",
+  "Source": "POC_LDAP",
+  "BasePath": "_content/POC_LDAP",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
