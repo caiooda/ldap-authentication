@@ -18,7 +18,7 @@ namespace POC_LDAP.Controllers
 
         [HttpPost]
         [Route("")]
-        public bool AutenticarLogin([FromBody] Login body)
+        public bool Login([FromBody] Login body)
             
         {
             var domain = _config.GetValue<string>("MySettings:domain");
