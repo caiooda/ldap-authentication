@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.DirectoryServices.Protocols;
+
+using System.DirectoryServices.AccountManagement;
+using System.DirectoryServices;
 using System.Net;
+
 
 namespace POC_LDAP.Controllers
 {
@@ -26,15 +30,39 @@ namespace POC_LDAP.Controllers
             var server = _config.GetValue<string>("MySettings:server");
             try
             {
-                LdapDirectoryIdentifier identifier = new LdapDirectoryIdentifier(server, host);
-                System.DirectoryServices.Protocols.LdapConnection ldapConnection =
-                    new System.DirectoryServices.Protocols.LdapConnection(identifier);
-                ldapConnection.AuthType = AuthType.Basic;
-                ldapConnection.SessionOptions.ProtocolVersion = 3;
-                NetworkCredential credential = new NetworkCredential($"uid={body.username},{domain}",
-                    body.password);
-                ldapConnection.Bind(credential);
-                ldapConnection.Dispose();
+                //LdapDirectoryIdentifier identifier = new LdapDirectoryIdentifier(server, host);
+                //System.DirectoryServices.Protocols.LdapConnection ldapConnection =
+                //    new System.DirectoryServices.Protocols.LdapConnection(identifier);
+                //ldapConnection.AuthType = AuthType.Basic;
+                //ldapConnection.SessionOptions.ProtocolVersion = 3;
+                //NetworkCredential credential = new NetworkCredential($"uid={body.username},{domain}",
+                //    body.password);
+                //ldapConnection.Bind(credential);
+                //ldapConnection.Dispose();
+
+
+
+                DirectoryEntry rootDSE = new DirectoryEntry("LDAP://ldap.forumsys.com/dc=example,dc=com", "cn=read-only-admin,dc=example,dc=com", "password", AuthenticationTypes.ServerBind);
+                DirectorySearcher searcher = new DirectorySearcher(rootDSE);
+                searcher.Filter = "(uid=riemann)";
+                searcher.PropertiesToLoad.Add("*");
+                SearchResult rc = searcher.FindOne();
+                Console.WriteLine("RESULT ============>", rc.GetDirectoryEntry());
+                // Get the properties of the 'mySearchResult'.  
+                ResultPropertyCollection myResultPropColl;
+                myResultPropColl = rc.Properties;
+                Console.WriteLine("The properties of the " +
+                        "'mySearchResult' are :");
+
+                foreach (string myKey in myResultPropColl.PropertyNames)
+                {
+                    string tab = "    ";
+                    Console.WriteLine(myKey + " = ");
+                    foreach (Object myCollection in myResultPropColl[myKey])
+                    {
+                        Console.WriteLine(tab + myCollection);
+                    }
+                }
                 return true;
             }
             catch (LdapException e)
@@ -48,5 +76,6 @@ namespace POC_LDAP.Controllers
                 return false;
             }
         }
+
     }
 }

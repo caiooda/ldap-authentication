@@ -3227,6 +3227,7 @@
       "Microsoft.Windows.Compatibility >= 7.0.0",
       "Swashbuckle.AspNetCore >= 6.2.3",
       "System.DirectoryServices >= 7.0.0",
+      "System.DirectoryServices.AccountManagement >= 7.0.0",
       "System.DirectoryServices.Protocols >= 7.0.0"
     ]
   },
@@ -3278,6 +3279,10 @@
             "version": "[6.2.3, )"
           },
           "System.DirectoryServices": {
+            "target": "Package",
+            "version": "[7.0.0, )"
+          },
+          "System.DirectoryServices.AccountManagement": {
             "target": "Package",
             "version": "[7.0.0, )"
           },
